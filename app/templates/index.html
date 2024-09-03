@@ -37,11 +37,11 @@
     </style>
 </head>
 <body>
-    <h1>Weather App</h1>
+    <h1>Välkommen! Sök efter vädret i en eller flera städer</h1>
     <form method="POST">
         <input class="city-input" type="text" name="city1" placeholder="Enter first city">
         <input class="city-input" type="text" name="city2" placeholder="Enter second city">
-        <button type="submit">Get Weather</button>
+        <button type="submit">Visa vädret</button>
     </form>
 
     <div class="weather-container">
@@ -52,25 +52,23 @@
             <img src="http://openweathermap.org/img/wn/{{ weather.icon }}.png" alt="weather icon">
         {% endfor %}
     </div>
-
-    <!-- Rubrik för kartan -->
+    
     <div class="map-header">Tryck på valfritt område för att visa väderdata</div>
-    <!-- Här lägger vi till kartan -->
     <div id="map"></div>
 
-    <!-- Google Maps JavaScript API -->
+    <!--Google maps API-->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1Zr_i3Z_WgsWO4OM8WQmSZ010GE3d_ns&callback=initMap" async defer></script>
 
     <script>
-        // Initiera kartan
+        // Initierar kartan
         function initMap() {
-            // Skapar en ny karta centrerad på Europa som exempel
+            // Skapar en ny karta med Europas koordinationer som start
             const map = new google.maps.Map(document.getElementById('map'), {
-                center: { lat: 54.5260, lng: 15.2551 }, // Europa som center
+                center: { lat: 54.5260, lng: 15.2551 }, 
                 zoom: 4,
             });
 
-            // Lägg till en klickhändelse på kartan
+            // Lägger till klickmöjlighet på kartan
             map.addListener('click', function (event) {
                 const lat = event.latLng.lat();
                 const lng = event.latLng.lng();
@@ -78,7 +76,7 @@
             });
         }
 
-        // Funktion för att hämta väder baserat på latitud och longitud
+        // Funktionen hämtar väderdata för longitud/latidud
         function fetchWeather(lat, lng) {
             fetch(`/weather?lat=${lat}&lng=${lng}`)
                 .then(response => response.json())
@@ -86,7 +84,7 @@
                     alert(`Vädret vid (${lat.toFixed(2)}, ${lng.toFixed(2)}): ${data.temperature}°C, ${data.description}`);
                 })
                 .catch(error => {
-                    console.error('Error fetching weather data:', error);
+                    console.error('Fel vid hämtning av väderdata:', error);
                     alert('Kunde inte hämta väderdata.');
                 });
         }

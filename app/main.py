@@ -1,11 +1,10 @@
-# app/main.py
 from flask import Flask, render_template, request, jsonify
 import requests
 
 app = Flask(__name__)
 
 API_KEY = "8a1f7393bac2fe14036859c942bacf13"
-
+#Routen för startsidan, hanterar GET och POST förfrågningar
 @app.route("/", methods=["GET", "POST"])
 def index():
     weather_data = []
@@ -39,7 +38,7 @@ def weather():
             "temperature": data["main"]["temp"],
             "description": data["weather"][0]["description"]
         })
-    return jsonify({"error": "Kunde inte hämta väderdata."}), response.status_code
+    return jsonify({"error": "Kunde inte hitta data."}), response.status_code
 
 def get_weather(city):
     url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}&units=metric"
